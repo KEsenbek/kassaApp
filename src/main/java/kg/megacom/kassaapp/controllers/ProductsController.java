@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import kg.megacom.kassaapp.Main;
 import kg.megacom.kassaapp.models.Product;
 import kg.megacom.kassaapp.services.ProductService;
+import kg.megacom.kassaapp.services.impl.ProductServiceImpl;
 
 import java.io.IOException;
 
@@ -107,6 +108,6 @@ public class ProductsController {
         refreshTable();
     }
     private void refreshTable() {
-        tbProducts.setItems(FXCollections.observableList(ProductService.getINSTANCE().getProduct()));
+        tbProducts.setItems(FXCollections.observableList(ProductService.INSTANCE.getProduct()));
     }
 }

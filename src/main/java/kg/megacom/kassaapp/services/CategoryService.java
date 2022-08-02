@@ -1,41 +1,20 @@
 package kg.megacom.kassaapp.services;
 
-import kg.megacom.kassaapp.db.CategoryDB;
+import kg.megacom.kassaapp.db.impl.CategoryDBImpl;
 import kg.megacom.kassaapp.models.Category;
+import kg.megacom.kassaapp.services.impl.CategoryServiceImpl;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public class CategoryService {
-    private CategoryDB categoryDB = CategoryDB.getINSTANCE();
+public interface CategoryService {
 
-    private static CategoryService INSTANCE;
+    CategoryService INSTANCE = new CategoryServiceImpl();
 
-    public static  CategoryService getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new CategoryService();
-        }
-            return INSTANCE;
-        }
+    void save (Category category) throws SQLException;
 
-        public void save (Category category) throws SQLException
-        { if (category.getId() == null)
-            categoryDB.insert(category);
-            else
-            categoryDB.update(category);
+    List<Category> getCategories();
 
-        }
-
-        public List<Category> getCategories() {
-         return categoryDB.findAll();
-        }
-
-        public void delete (Integer id) {
-        try{
-            categoryDB.delete(id);
-        }catch (SQLException e) {
-            e.printStackTrace();
-        }
-        }
+    void delete (Integer id);
 
 }

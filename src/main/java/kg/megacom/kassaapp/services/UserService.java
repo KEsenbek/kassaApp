@@ -1,44 +1,19 @@
 package kg.megacom.kassaapp.services;
 
-import kg.megacom.kassaapp.db.CategoryDB;
-import kg.megacom.kassaapp.db.UserDB;
-import kg.megacom.kassaapp.models.Category;
 import kg.megacom.kassaapp.models.User;
+import kg.megacom.kassaapp.services.impl.UserServiceImpl;
 
-import java.sql.SQLException;
 import java.util.List;
 
-public class UserService {
+public interface UserService {
 
-    private UserDB userDB = UserDB.getINSTANCE();
+    UserService INSTANCE = new UserServiceImpl();
+    void save (User user);
+    List<User> selectUsers();
 
-    private static UserService INSTANCE;
+    void delete (Integer id);
 
-    public static  UserService getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new UserService();
-        }
-        return INSTANCE;
-    }
+    User searchLoginAndPassword(String login, String password);
 
-    public void save (User user)
-    { if (user.getId() == null)
-        UserDB.getINSTANCE().insert(user);
-    else
-        UserDB.getINSTANCE().update(user);
-
-    }
-
-    public List<User> selectUsers() {
-        return userDB.selectUsers();
-    }
-
-    public void delete (Integer id) {
-        try{
-            UserDB.getINSTANCE().delete(id);
-        }catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
 }

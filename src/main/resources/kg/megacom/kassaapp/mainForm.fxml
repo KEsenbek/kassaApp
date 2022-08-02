@@ -51,6 +51,10 @@
                         <TextField fx:id="txtTotal" editable="false" layoutX="79.0" layoutY="489.0" prefHeight="46.0" prefWidth="134.0" />
                         <TextField fx:id="txtBarcode" layoutX="37.0" layoutY="57.0" prefHeight="26.0" prefWidth="163.0" />
                         <Button fx:id="btnEnter" defaultButton="true" layoutX="88.0" layoutY="95.0" mnemonicParsing="false" onAction="#onEnterButtonClicked" prefHeight="26.0" prefWidth="110.0" text="Найти" />
+                  <Button fx:id="btnClose" layoutX="88.0" layoutY="430.0" mnemonicParsing="false" onAction="#onCloseButtonAction" prefHeight="26.0" prefWidth="110.0" text="Завершить" />
+                  <TextField fx:id="txtUserCash" layoutX="79.0" layoutY="356.0" prefHeight="46.0" prefWidth="134.0" promptText="Сумма от покупателя" />
+                  <Label fx:id="cashierName" layoutX="142.0" layoutY="4.0" prefHeight="31.0" prefWidth="100.0" />
+                  <Label layoutX="89.0" layoutY="11.0" text="Кассир:" />
                     </children></AnchorPane>
             </items>
         </SplitPane>

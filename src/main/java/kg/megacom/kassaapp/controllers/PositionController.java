@@ -12,16 +12,15 @@ import javafx.scene.control.MenuItem;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import kg.megacom.kassaapp.Main;
-import kg.megacom.kassaapp.models.Category;
 import kg.megacom.kassaapp.models.Position;
-import kg.megacom.kassaapp.services.CategoryService;
 import kg.megacom.kassaapp.services.PositionService;
+import kg.megacom.kassaapp.services.impl.PositionServiceImpl;
 
 import java.io.IOException;
 import java.util.List;
 
 public class PositionController {
-    private PositionService positionService = PositionService.getInstance();
+   // private PositionServiceImpl positionServiceImpl = PositionServiceImpl.getInstance();
     @FXML
     private ListView<Position> listViewCategories;
 
@@ -75,7 +74,7 @@ public class PositionController {
 
         if (result.equals(ButtonType.YES)){
             Position position = listViewCategories.getSelectionModel().getSelectedItem();
-            positionService.delete(position.getId());
+            PositionService.INSTANCE.delete(position.getId());
             refreshList();
         }
     }
@@ -109,7 +108,7 @@ public class PositionController {
     }
 
     private void refreshList() {
-        List<Position> positions = positionService.getPosition();
+        List<Position> positions = PositionService.INSTANCE.getPosition();
         listViewCategories.setItems(FXCollections.observableList(positions));
 
     }

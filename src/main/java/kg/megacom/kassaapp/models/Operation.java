@@ -2,14 +2,33 @@ package kg.megacom.kassaapp.models;
 
 import kg.megacom.kassaapp.enums.OperStatus;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Operation {
 
     private Integer id;
-    private Date addDate;
+    private LocalDateTime addDate;
     private double total;
-    private OperStatus status;
+
+    private User user;
+
+    public Operation(){};
+
+
+    public Operation(LocalDateTime addDate, double total) {
+        this.addDate = addDate;
+        this.total = total;
+
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Integer getId() {
         return id;
@@ -19,11 +38,11 @@ public class Operation {
         this.id = id;
     }
 
-    public Date getAddDate() {
+    public LocalDateTime getAddDate() {
         return addDate;
     }
 
-    public void setAddDate(Date addDate) {
+    public void setAddDate(LocalDateTime addDate) {
         this.addDate = addDate;
     }
 
@@ -35,11 +54,4 @@ public class Operation {
         this.total = total;
     }
 
-    public OperStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(OperStatus status) {
-        this.status = status;
-    }
 }

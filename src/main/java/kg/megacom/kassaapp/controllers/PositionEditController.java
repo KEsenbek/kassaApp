@@ -7,12 +7,13 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import kg.megacom.kassaapp.models.Position;
 import kg.megacom.kassaapp.services.PositionService;
+import kg.megacom.kassaapp.services.impl.PositionServiceImpl;
 
 import java.sql.SQLException;
 
 public class PositionEditController {
 
-    private PositionService positionService = PositionService.getInstance();
+   // private PositionServiceImpl positionServiceImpl = PositionServiceImpl.getInstance();
 
     private Position position;
 
@@ -43,7 +44,7 @@ public class PositionEditController {
         Alert.AlertType alertType = Alert.AlertType.INFORMATION;
 
         try {
-            positionService.save(position);
+            PositionService.INSTANCE.save(position);
             txtPositionName.getScene().getWindow().hide();
         } catch (SQLException e) {
             e.printStackTrace();

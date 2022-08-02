@@ -3,7 +3,6 @@ package kg.megacom.kassaapp.controllers;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import kg.megacom.kassaapp.models.Category;
@@ -12,12 +11,13 @@ import kg.megacom.kassaapp.models.Unit;
 import kg.megacom.kassaapp.services.CategoryService;
 import kg.megacom.kassaapp.services.ProductService;
 import kg.megacom.kassaapp.services.UnitService;
+import kg.megacom.kassaapp.services.impl.UnitServiceImpl;
 
 public class ProductEditController {
 
 private Product product;
-private CategoryService categoryService = CategoryService.getInstance();
-private UnitService unitService = UnitService.getINSTANCE();
+//private CategoryServiceImpl categoryServiceImpl = CategoryServiceImpl.getInstance();
+//private UnitServiceImpl unitServiceImpl = UnitServiceImpl.getINSTANCE();
 
     @FXML
     private ComboBox<Category> cmbCategories;
@@ -78,7 +78,7 @@ private UnitService unitService = UnitService.getINSTANCE();
         product.setCategory(category);
         product.setUnit(unit);
 
-        ProductService.getINSTANCE().save(product);
+        ProductService.INSTANCE.save(product);
 
         System.out.println("Данные добавлены");
 
@@ -86,8 +86,8 @@ private UnitService unitService = UnitService.getINSTANCE();
 
     @FXML
     void initialize() {
-        cmbCategories.setItems(FXCollections.observableList(categoryService.getCategories()));
-        cmbUnits.setItems(FXCollections.observableList(unitService.getUnits()));
+        cmbCategories.setItems(FXCollections.observableList(CategoryService.INSTANCE.getCategories()));
+        cmbUnits.setItems(FXCollections.observableList(UnitService.INSTANCE.getUnits()));
 
     }
 

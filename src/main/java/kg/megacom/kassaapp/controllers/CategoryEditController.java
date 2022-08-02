@@ -7,12 +7,13 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import kg.megacom.kassaapp.models.Category;
 import kg.megacom.kassaapp.services.CategoryService;
+import kg.megacom.kassaapp.services.impl.CategoryServiceImpl;
 
 import java.sql.SQLException;
 
 public class CategoryEditController {
 
-    private CategoryService categoryService = CategoryService.getInstance();
+    //private CategoryServiceImpl categoryServiceImpl = CategoryServiceImpl.getInstance();
     private Category category;
 
     public void setCategory(Category category) {
@@ -41,7 +42,7 @@ public class CategoryEditController {
         Alert.AlertType alertType = Alert.AlertType.INFORMATION;
 
         try {
-            categoryService.save(category);
+            CategoryService.INSTANCE.save(category);
             txtCategoryName.getScene().getWindow().hide();
         } catch (SQLException e) {
             e.printStackTrace();

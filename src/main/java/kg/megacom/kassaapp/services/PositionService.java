@@ -1,42 +1,19 @@
 package kg.megacom.kassaapp.services;
 
-import kg.megacom.kassaapp.db.CategoryDB;
-import kg.megacom.kassaapp.db.PositionDB;
-import kg.megacom.kassaapp.models.Category;
+import kg.megacom.kassaapp.db.impl.PositionDBImpl;
 import kg.megacom.kassaapp.models.Position;
+import kg.megacom.kassaapp.services.impl.PositionServiceImpl;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public class PositionService {
-    private PositionDB positionDB = PositionDB.getINSTANCE();
+public interface PositionService {
 
-    private static PositionService INSTANCE;
+    PositionService INSTANCE = new PositionServiceImpl();
 
-    public static  PositionService getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new PositionService();
-        }
-        return INSTANCE;
-    }
+    void save (Position position) throws SQLException;
 
-    public void save (Position position) throws SQLException
-    { if (position.getId() == null)
-        positionDB.insert(position);
-    else
-        positionDB.update(position);
+    List<Position> getPosition();
 
-    }
-
-    public List<Position> getPosition() {
-        return positionDB.findAll();
-    }
-
-    public void delete (Integer id) {
-        try{
-            positionDB.delete(id);
-        }catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+    void delete (Integer id);
 }

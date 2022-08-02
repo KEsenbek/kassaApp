@@ -1,4 +1,4 @@
-package kg.megacom.kassaapp.services;
+package kg.megacom.kassaapp.services.impl;
 
 public class CounterService {
 

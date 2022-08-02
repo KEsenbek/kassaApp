@@ -12,7 +12,10 @@ import javafx.stage.Stage;
 import kg.megacom.kassaapp.Main;
 import kg.megacom.kassaapp.models.OperationProducts;
 import kg.megacom.kassaapp.models.Product;
+import kg.megacom.kassaapp.models.User;
+import kg.megacom.kassaapp.services.OperationService;
 import kg.megacom.kassaapp.services.ProductService;
+import kg.megacom.kassaapp.services.impl.ProductServiceImpl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,6 +24,8 @@ import java.util.List;
 public class MainController {
 
     private List<OperationProducts> operationProductsList = new ArrayList<>();
+
+    private User user;
 
     @FXML
     private MenuItem mnItemCategories;
@@ -32,6 +37,9 @@ public class MainController {
     private MenuItem mnItemUsers;
     @FXML
     private Button btnEnter;
+
+    @FXML
+    private Button btnClose;
 
     @FXML
     private TableColumn<String, OperationProducts> colmAmount;
@@ -63,13 +71,75 @@ public class MainController {
 
 
     @FXML
+    private TextField txtUserCash;
+
+    @FXML
+    private Label cashierName;
+
+
+
+    @FXML
     void onEnterButtonClicked(ActionEvent event) {
-        Product product = ProductService.getINSTANCE().findProductByBarcode(txtBarcode.getText());
+        Product product = ProductService.INSTANCE.findProductByBarcode(txtBarcode.getText());
 
         addProctToList(product);
 
         refreshList();
     }
+
+    @FXML
+    void onCloseButtonAction(ActionEvent event) {
+        Alert alert;
+        if (operationProductsList.isEmpty()) {
+            alert = new Alert(Alert.AlertType.WARNING, "Нет товаров для закрытия операции");
+            alert.show();
+            return;
+        }
+        else if (txtUserCash.getText().trim().isEmpty()){
+            alert = new Alert(Alert.AlertType.WARNING, "Введите сумму для оплаты!");
+            alert.show();
+            return;
+        }
+        else if (Double.parseDouble(txtUserCash.getText().trim()) >= Double.parseDouble(txtTotal.getText().trim())) {
+            boolean isSavaResult = OperationService.
+                    INSTANCE.
+                    closeAndSaveOperation(Double.parseDouble(txtTotal.getText().trim()),user.getId() ,operationProductsList);
+
+            if (!isSavaResult) {
+                alert = new Alert(Alert.AlertType.WARNING, "Ошибка при закрытии операции!");
+                alert.show();
+                return;
+            }
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("chequeForm.fxml"));
+
+            try {
+                Scene scene = new Scene(loader.load());
+                stage.setScene(scene);
+                stage.setResizable(false);
+                stage.initModality(Modality.APPLICATION_MODAL);
+
+                ChequeController controller = loader.getController();
+                controller.setData(Double.parseDouble(txtUserCash.getText().trim()) - Double.parseDouble(txtTotal.getText().trim()), operationProductsList);
+                stage.showAndWait();
+
+                operationProductsList.clear();
+                refreshList();
+                txtUserCash.clear();
+                txtTotal.clear();
+                txtBarcode.clear();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        } else {
+            alert = new Alert(Alert.AlertType.INFORMATION, "Не хватает денег для закрытия операции");
+            alert.show();
+
+        }
+    }
+
 
     private void addProctToList(Product product) {
 
@@ -175,7 +245,13 @@ public class MainController {
         colmAmountPrice.setCellValueFactory(new PropertyValueFactory<>("total"));
         colmProduct.setCellValueFactory(new PropertyValueFactory<>("product"));
 
+        refreshList();
 
     }
 
+    public void setDate(User user) {
+        this.user = user;
+        cashierName.setText(this.user.getName());
+
+    }
 }

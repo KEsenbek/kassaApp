@@ -1,29 +1,27 @@
 package kg.megacom.kassaapp.controllers;
 
 import java.io.IOException;
-import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import kg.megacom.kassaapp.Main;
-import kg.megacom.kassaapp.models.Position;
+import kg.megacom.kassaapp.db.UserDB;
 import kg.megacom.kassaapp.models.User;
-import kg.megacom.kassaapp.services.PositionService;
 import kg.megacom.kassaapp.services.UserService;
+import kg.megacom.kassaapp.services.impl.UserServiceImpl;
 
 public class UserController {
 
-    private UserService userService = UserService.getInstance();
+    //private UserServiceImpl userServiceImpl = UserServiceImpl.getInstance();
 
 
     @FXML
@@ -53,7 +51,7 @@ public class UserController {
     private MenuItem mnItemPosition;
 
     @FXML
-    void onMenuItemClicked(ActionEvent event) {
+    void onMenuItemClicked(ActionEvent event) throws SQLException {
         if (event.getSource().equals(mnItemAdd)){
             addUser();
         } else if (event.getSource().equals(mnItemEdit)) {
@@ -88,13 +86,13 @@ public class UserController {
         showUsersForm(tbUsers.getSelectionModel().getSelectedItem());
     }
 
-    private void deleteUser() {
+    private void deleteUser() throws SQLException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Вы уверены?", ButtonType.YES,ButtonType.NO);
         ButtonType result = alert.showAndWait().get();
 
         if (result.equals(ButtonType.YES)){
             User user = tbUsers.getSelectionModel().getSelectedItem();
-            userService.delete(user.getId());
+            UserDB.INSTANCE.delete(user.getId());
             refreshList();
         }
     }
@@ -141,7 +139,7 @@ public class UserController {
     }
 
     private void refreshList() {
-        List<User> users = userService.selectUsers();
+        List<User> users = UserDB.INSTANCE.selectUsers();
         tbUsers.setItems(FXCollections.observableList(users));
 
     }

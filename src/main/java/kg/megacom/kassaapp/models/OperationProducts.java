@@ -10,6 +10,16 @@ public class OperationProducts {
     private Operation operation;
     private  Product product;
 
+    User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -57,4 +67,10 @@ public class OperationProducts {
     public void setProduct(Product product) {
         this.product = product;
     }
+
+    @Override
+    public String toString() {
+        return product+" + "+amount;
+    }
 }
+

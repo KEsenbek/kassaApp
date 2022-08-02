@@ -7,17 +7,17 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import kg.megacom.kassaapp.models.Position;
 import kg.megacom.kassaapp.models.User;
-import kg.megacom.kassaapp.services.CounterService;
 import kg.megacom.kassaapp.services.PositionService;
 import kg.megacom.kassaapp.services.UserService;
+import kg.megacom.kassaapp.services.impl.PositionServiceImpl;
+import kg.megacom.kassaapp.services.impl.UserServiceImpl;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class UserEditController {
 
     private Stage stage;
-private PositionService positionService = new PositionService();
+private PositionServiceImpl positionServiceImpl = new PositionServiceImpl();
 
 
 
@@ -78,7 +78,7 @@ private User user;
         user.setPosition(position);
 
 
-        UserService.getInstance().save(user);
+        UserService.INSTANCE.save(user);
 
         System.out.println("Данные добавлены");
 
@@ -87,8 +87,8 @@ private User user;
     @FXML
     void initialize() {
 
-        List<User> users = UserService.getInstance().selectUsers();
-        cbPositions.setItems(FXCollections.observableList(PositionService.getInstance().getPosition()));
+        List<User> users = UserService.INSTANCE.selectUsers();
+        cbPositions.setItems(FXCollections.observableList(PositionService.INSTANCE.getPosition()));
 
     }
 

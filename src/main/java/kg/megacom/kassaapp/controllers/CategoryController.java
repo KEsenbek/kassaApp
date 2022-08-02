@@ -1,9 +1,7 @@
 package kg.megacom.kassaapp.controllers;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -15,15 +13,15 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Modality;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import kg.megacom.kassaapp.Main;
 import kg.megacom.kassaapp.models.Category;
 import kg.megacom.kassaapp.services.CategoryService;
+import kg.megacom.kassaapp.services.impl.CategoryServiceImpl;
 
 public class CategoryController {
 
-    private CategoryService categoryService = CategoryService.getInstance();
+   // private CategoryServiceImpl categoryServiceImpl = CategoryServiceImpl.getInstance();
 
     @FXML
     private ListView<Category> listViewCategories;
@@ -57,7 +55,7 @@ public class CategoryController {
 
         if (result.equals(ButtonType.YES)) {
             Category category = listViewCategories.getSelectionModel().getSelectedItem();
-            categoryService.delete(category.getId());
+            CategoryService.INSTANCE.delete(category.getId());
             refreshList();
         }
 
@@ -110,7 +108,7 @@ public class CategoryController {
     }
 
     private void refreshList() {
-        List<Category> categories = categoryService.getCategories();
+        List<Category> categories = CategoryService.INSTANCE.getCategories();
         listViewCategories.setItems(FXCollections.observableList(categories));
     }
 

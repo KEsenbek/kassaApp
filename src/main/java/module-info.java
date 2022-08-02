@@ -9,7 +9,9 @@ module kg.megacom.kassaapp {
     exports kg.megacom.kassaapp.controllers;
     exports kg.megacom.kassaapp.services;
     exports kg.megacom.kassaapp.models;
-    exports  kg.megacom.kassaapp.db;
+    exports kg.megacom.kassaapp.db;
     opens kg.megacom.kassaapp.controllers to javafx.fxml;
+    exports kg.megacom.kassaapp.db.impl;
+    exports kg.megacom.kassaapp.services.impl;
 
 }
